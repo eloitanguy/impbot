@@ -1,4 +1,4 @@
-#### v0.1.1dev
+#### v0.1.1
 
 - fix `impbot_cfg.yaml` copy error when installing with `pip install .` (PR #3)
 - fix chained `\input` commands not being parsed properly (PR #2)
