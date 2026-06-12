@@ -1,0 +1,219 @@
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+
+\newtheoremstyle{upright}   % Name of the style
+  {10pt}                    % Space above
+  {10pt}                    % Space below
+  {}                        % Body font (empty = \normalfont)
+  {}                        % Indent amount
+  {\bfseries}               % Theorem head font
+  {.}                       % Punctuation after theorem head
+  { }                       % Space after theorem head
+  {}                        % Theorem head spec
+
+\theoremstyle{upright}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{assumption}{Assumption}
+\crefname{assumption}{Assumption}{Assumptions}
+\newtheorem{definition}{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{prop}[theorem]{Proposition}
+\crefname{prop}{Proposition}{Propositions}
+\newtheorem{convention}{Convention}
+
+\tcbuselibrary{theorems}
+\definecolor{theoremblue}{HTML}{2196F3} % #2196F3
+\definecolor{proofpurple}{HTML}{9013FE} % #9013FE
+\definecolor{defyellow}{HTML}{FFEB3B} % #FFEB3B
+\definecolor{assumptionred}{HTML}{ff3b3b} % #ff3b3b
+\definecolor{conventionred}{HTML}{ff3b3b} % #ff3b3b
+\definecolor{remarkorange}{HTML}{dc5800} % #dc5800
+\definecolor{examplegreen}{HTML}{00695c} % #00695c
+
+\tcolorboxenvironment{theorem}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=theoremblue,
+  colback=theoremblue!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{theoremblue},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{definition}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=defyellow,
+  colback=defyellow!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{defyellow},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{corollary}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=theoremblue,
+  colback=theoremblue!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{theoremblue},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{prop}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=theoremblue,
+  colback=theoremblue!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{theoremblue},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{condition}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=theoremblue,
+  colback=theoremblue!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{theoremblue},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{example}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=examplegreen,
+  colback=examplegreen!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{examplegreen},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{lemma}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=theoremblue,
+  colback=theoremblue!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{theoremblue},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{assumption}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=assumptionred,
+  colback=assumptionred!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{assumptionred},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{remark}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=remarkorange,
+  colback=remarkorange!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{remarkorange},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{convention}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=conventionred,
+  colback=conventionred!5,
+  coltitle=black,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{conventionred},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable
+}
+
+
+% Define a custom tcolorbox for proofs
+\newtcolorbox{myproof}{
+  enhanced jigsaw,
+  sharp corners,
+  colframe=proofpurple,
+  colback=proofpurple!0,
+  borderline west={1pt}{0pt}{proofpurple},
+  borderline south={1pt}{0pt}{proofpurple},
+  before skip=10pt,
+  after skip=10pt,
+  boxrule=0pt,
+  left=10pt,
+  right=10pt,
+  breakable,
+}
+
+% Redefine the proof environment to use the custom tcolorbox
+\renewenvironment{proof}[1][\proofname]{
+  \begin{myproof}
+    \textbf{#1.}
+}{\hfill$\qed$\end{myproof}
+}

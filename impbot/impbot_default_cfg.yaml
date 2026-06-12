@@ -1,0 +1,50 @@
+# cspell:disable
+#############################
+# Impbot configuration file #
+#############################
+
+# tex parser settings
+# -------------------
+
+# commands to be parsed as referencing statement labels
+ref_commands:
+  ["ref", "cref", "Cref", "eqref"]
+
+# LaTeX environments (delimited by \begin{env} ... \end{env}
+# to be parsed as statements
+envs_with_proofs:
+  ['theorem', 'lemma', 'proposition', 'corollary', 'prop']
+
+# LaTeX environments to ignore
+ignored_envs:
+  ['equation', 'equation*', 'align', 'align*',
+  'gathered', 'gathered*', 'multiline', 'multiline*',
+  'center', 'tikzpicture', 'figure', 'table', 'example', 
+  'remark']
+
+# look for the proof of a statement in the next
+# <max_proof_distance> lines (in the same file)
+max_proof_distance: 10
+
+
+# tikz settings
+# -------------
+
+# colours for the statement nodes in the graph
+env_colours:
+  default: '808080'
+  arrow: 'DC5800'
+  theorem: '2196F3'
+  definition: 'FFEB3B'
+  assumption: 'FF3B3B'
+  proposition: '2196F3'
+  prop: '2196F3'
+  corollary: '2196F3'
+  lemma: '2196F3'
+
+# horizontal and vertical graph scales
+xscale: 3
+yscale: 1
+
+fontsize: 11pt
+edge_thickness: 1pt

@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{hyperref}
+\usepackage[top=40pt, bottom=40pt]{geometry}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+}
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[nameinlink]{cleveref}
+\input{fancy_theorem.tex}
+\input{impbot/impbot_requirements.tex}
+
+\definecolor{mygrey}{HTML}{93a4b2}  % #93a4b2
+\newcommand{\fileprefix}{\vspace{20pt}\hrule\vspace{5pt}}
+
+\begin{document}
+  \thispagestyle{empty}
+  \fileprefix
+  \verb|sub_files/sub_file1.tex|
+  \input{sub_files/sub_file1.tex}
+  
+  \fileprefix
+  \verb|sub_files/sub_file2.tex|
+  \input{sub_files/sub_file2.tex}
+  
+  \fileprefix
+  \verb|sub_files/thm_sub_file.tex|
+  \input{sub_files/thm_sub_file.tex}
+  
+  \fileprefix
+  \verb|sub_files/appendix.tex|
+  \input{sub_files/appendix.tex}
+  
+  \fileprefix
+  \verb|impbot/implication_graph.tex|
+  \vspace{20pt}
+  \input{impbot/implication_graph.tex}
+\end{document}

@@ -1,0 +1,15 @@
+[project]
+name = "impbot"
+version = "0.1"
+dependencies = [
+    "pyyaml", 
+    "numpy"]
+
+[tool.setuptools.packages.find]
+include = ["impbot"]
+
+[tool.setuptools.package-data]
+impbot = ["impbot/impbot_default_cfg.yaml"]
+
+[project.scripts]
+impbot = "impbot.cli:main"

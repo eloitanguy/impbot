@@ -1,0 +1,15 @@
+impbot.egg-info
+dev/
+
+.vscode
+*/__pycache__/
+
+example/impbot
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+example/example.pdf
+*.synctex.gz
+
