@@ -9,7 +9,7 @@ dependencies = [
 include = ["impbot"]
 
 [tool.setuptools.package-data]
-impbot = ["impbot/impbot_default_cfg.yaml"]
+impbot = ["impbot_default_cfg.yaml"]
 
 [project.scripts]
 impbot = "impbot.cli:main"

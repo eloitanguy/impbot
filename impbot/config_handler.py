@@ -9,9 +9,17 @@ def latex_command_escape(cmd):
     return r"\\" + cmd
 
 
+def get_default_cfg_path():
+    ref = importlib.resources.files("impbot").joinpath(
+        "impbot_default_cfg.yaml")
+    with importlib.resources.as_file(ref) as path:
+        return path
+
+
 def copy_default_config(target_path, verbose=False):
-    default_cfg_path = importlib.resources.files(
-        "impbot").joinpath("impbot_default_cfg.yaml")
+    # default_cfg_path = importlib.resources.files(
+    #     "impbot").joinpath("impbot_default_cfg.yaml")
+    default_cfg_path = get_default_cfg_path()
     shutil.copy2(default_cfg_path, target_path)
     if verbose:
         print(f"[impbot] Copied default config to {target_path}.")
