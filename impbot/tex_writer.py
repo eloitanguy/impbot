@@ -1,6 +1,9 @@
 def compute_tikz_code_string(nodes_dict, coords, node_to_node_idx, cfg,
                              impbot_version):
     nodes = nodes_dict.values()
+    if not nodes:
+        print("[impbot] Fatal: could not parse any nodes, abort.")
+        return ""
     s = r"% cspell:disable" + "\n"
     s += f"% Generated automatically by impBot {impbot_version}\n"
     s += "% Modifying this file runs the risk of losing your changes\n"

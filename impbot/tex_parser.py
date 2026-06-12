@@ -119,9 +119,11 @@ class Node:
 
 
 class TexFile:
-    def __init__(self, file_path, cfg):
+    def __init__(self, file_path, cfg, main_folder=None):
         self.file_path = ensure_tex_file(file_path)
         self.local_folder = os.path.dirname(self.file_path)
+        self.main_folder = self.local_folder if main_folder is None \
+            else main_folder
         self.lines = []
         self.cfg = cfg
         with open(self.file_path, "r") as f:
@@ -156,19 +158,21 @@ class TexFile:
         # included, inputted, or sub-imported in the current file
         children_file_paths = []
         for line in self.lines:
-            relative_include_paths = re.findall(
+            include_paths = re.findall(
                 r'\\(?:include|input)\{([^}]+)\}', line.text)
+
+            children_file_paths += [
+                os.path.join(self.main_folder, ensure_tex_file(p))
+                for p in include_paths
+            ]
 
             relative_sub_import_paths = re.findall(
                 r'\\subimport\{([^}]+)\}\{([^}]+)\}', line.text)
-            for (folder, file) in relative_sub_import_paths:
-                relative_include_paths.append(os.path.join(folder, file))
 
-            if relative_include_paths:
-                absolute_include_paths = [
-                    os.path.join(self.local_folder, ensure_tex_file(p))
-                    for p in relative_include_paths]
-                children_file_paths += absolute_include_paths
+            children_file_paths += [
+                os.path.join(self.local_folder, folder, ensure_tex_file(file))
+                for (folder, file) in relative_sub_import_paths
+            ]
 
         return children_file_paths
 
@@ -197,7 +201,8 @@ def compute_implication_graph(main_tex_file, cfg):
             print("[impbot] Warning: could not find "
                   f"{child_file_path}, skipping this file.")
             continue
-        child_tex_file = TexFile(child_file_path, cfg)
+        child_tex_file = TexFile(child_file_path, cfg,
+                                 main_folder=main_tex_file.main_folder)
         tex_files[child_tex_file.file_path] = child_tex_file
         children_file_paths += child_tex_file.children_file_paths
 
