@@ -64,7 +64,8 @@ class TexLine:
         return self.__str__()
 
     def detailed_str(self):
-        out = f"[L{self.number}]\t{self.text.replace('\n', '')}"
+        text_without_line_breaks = self.text.replace('\n', '')
+        out = f"[L{self.number}]\t{text_without_line_breaks}"
         if self.label_id is not None:
             out += f"\n\tLabel: {self.label_id}"
         if self.refs:
