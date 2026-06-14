@@ -1,6 +1,7 @@
 import re
 import os
 from typing import OrderedDict
+from .logger import log_implication_graph_computation
 
 
 def ensure_tex_file(file_path):
@@ -36,6 +37,8 @@ class TexLine:
         self.cfg = cfg
         self.proof_of = None
         self.file_path = file_path
+        self.is_env_start = False
+        self.is_env_end = False
 
         label_ids = re.findall(r'\\label\{([^}]+)\}', text)
         if label_ids:
@@ -71,7 +74,8 @@ class TexLine:
         if self.refs:
             out += f"\n\tRefs: {self.refs}"
         if self.env:
-            out += f"\n\tEnv: {self.env}"
+            out += f"\n\tEnv: {self.env} is_env_start:{self.is_env_start}"
+            out += f" is_env_end:{self.is_env_end}"
         if self.proof_of is not None:
             out += f"\n\tProof of: {self.proof_of}"
         return out
@@ -145,13 +149,16 @@ class TexFile:
         env_stack = []
         for line in self.lines:
             env_start = re.findall(r'\\begin\{([^}]+)\}', line.text)
+            if env_start:
+                line.is_env_start = True
             env_stack += env_start
             env_end = re.findall(r'\\end\{([^}]+)\}', line.text)
+            line.env = env_stack[-1] if env_stack else None
             if env_end:
+                line.is_env_end = True
                 while env_end and env_stack[-1] == env_end[0]:
                     env_stack.pop()
                     env_end.pop(0)
-            line.env = env_stack[-1] if env_stack else None
 
     def _get_children_file_paths(self):
         # compute the paths of files that are
@@ -183,7 +190,7 @@ class TexFile:
         print(s)
 
 
-def compute_implication_graph(main_tex_file, cfg):
+def compute_implication_graph(main_tex_file, cfg, log=False):
     r"""
     Reads the `main_tex_file` and creates an `OrderedDict` of the form
     `[(node_label_id: str, Node: node)]` with each node corresponding to a
@@ -250,19 +257,35 @@ def compute_implication_graph(main_tex_file, cfg):
                 node.proof_file_path = node.file_path
                 line_idx = node.line_number - 1
                 node.env_end_idx = None
-                while (line_idx < len(node_tex_file.lines)
-                        and node_tex_file.lines[line_idx].env != 'proof'):
-                    if node_tex_file.lines[line_idx].env != node.env:
+                encountered_other_env_with_proof = False
+                # search for the end of the statement and
+                # for the start of the proof
+                while line_idx < len(node_tex_file.lines):
+                    # changed to another env:
+                    # mark the end of the node's env
+                    if (node.env_end_idx is None
+                            and node_tex_file.lines[line_idx].env == node.env
+                            and node_tex_file.lines[line_idx].is_env_end):
                         node.env_end_idx = line_idx - 1
+                    if node_tex_file.lines[line_idx].env == 'proof':
+                        break
+                    # we are beyond the end of the node's env and found another
+                    # env with proof: give up on looking for a proof
+                    if (node.env_end_idx is not None
+                        and node.env_end_idx < line_idx
+                        and node_tex_file.lines[line_idx].is_env_start
+                        and node_tex_file.lines[line_idx].env
+                            in cfg["envs_with_proofs"]):
+                        encountered_other_env_with_proof = True
                     line_idx += 1
 
                 if (node.env_end_idx is None
                         or line_idx > node.env_end_idx + max_dist
-                        or line_idx >= len(node_tex_file.lines)):
+                        or line_idx >= len(node_tex_file.lines)
+                        or encountered_other_env_with_proof):
                     node.proof_start = None
                     print(
-                        f"[impbot] Warning: could not find a proof for {node} "
-                        f"within {max_dist} lines, skipped.")
+                        f"[impbot] Warning: could not find a proof for {node}.")
                 else:
                     node.proof_start = line_idx
 
@@ -315,5 +338,8 @@ def compute_implication_graph(main_tex_file, cfg):
             dfs(node, 0)
 
     node_to_node_idx = {node: idx for idx, node in enumerate(nodes.values())}
+
+    if log:
+        log_implication_graph_computation(tex_files, nodes)
 
     return nodes, node_to_node_idx

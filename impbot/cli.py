@@ -21,6 +21,8 @@ def main():
     parser.add_argument(
         '--version', '--v', action='version',
         version="impbot " + v)
+    parser.add_argument(
+        '--log', action='store_true')
     args = parser.parse_args()
 
     t0 = time()
@@ -55,7 +57,7 @@ def main():
 
     print("[impbot] Computing implication graph...")
     nodes, node_to_node_idx = \
-        compute_implication_graph(main_tex_file, cfg)
+        compute_implication_graph(main_tex_file, cfg, args.log)
     print("[impbot] Computing graph layout...")
     coords = compute_implication_graph_layout(nodes)
     print("[impbot] Generating TikZ code...")

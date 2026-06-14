@@ -20,7 +20,7 @@ ignored_envs:
   ['equation', 'equation*', 'align', 'align*',
   'gathered', 'gathered*', 'multiline', 'multiline*',
   'center', 'tikzpicture', 'figure', 'table', 'example', 
-  'remark']
+  'remark', 'array', 'itemize', 'enumerate']
 
 # look for the proof of a statement in the next
 # <max_proof_distance> lines (in the same file)
